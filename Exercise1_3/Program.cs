@@ -10,22 +10,30 @@ namespace Exercise1_3
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Exercise1\n");
+            Console.WriteLine("**************************************");
+            Console.WriteLine("Solution to C# crash course exercise 1");
+            Console.WriteLine("**************************************");
 
             var lines = ReadFile(@"..\..\..\data.csv");
 
             var longstTitle = LongestTitle(lines);
 
-            Console.WriteLine($"Longest title: {longstTitle}");
+            Console.WriteLine($"a) The longest title:\n{longstTitle}\n");
 
             int wordCount = 0;
             var words = ExtractWords(lines, out wordCount);
 
-            Console.WriteLine($"Number of words: {wordCount}");
+            Console.WriteLine("b) Id and number of words:");
+            foreach (var line in words)
+            {
+                Console.WriteLine($"{line.id}: {line.words.Count}");
+            }
+
+            Console.WriteLine($"Total number of words: {wordCount}\n");
 
             var outputFile = "words.csv";
             WriteWordsToFile(outputFile, words);
-            Console.WriteLine($"Words written to file {outputFile}");
+            Console.WriteLine($"c) Words written to file {outputFile}");
 
         }
 
@@ -69,6 +77,7 @@ namespace Exercise1_3
         public static List<(int id, List<string> words)> ExtractWords(IEnumerable<(int id, string title)> lines, out int wordCount)
         {
             var words = new List<(int, List<string>)>();
+            // prepare a list of possible word delimiters, thus refine from just using spaces
             char[] delimiterChars = { ' ', ',', '.', ':', '\t', '(', ')', '-', '?', '/', '<', '>', '!', '=' };
             wordCount = 0;
             foreach (var line in lines)
@@ -94,8 +103,11 @@ namespace Exercise1_3
             }
         }
 
+        // using a nullable tuple - thus the ? after the tuple in the return type
         public static (int id, string title)? Parse(string line)
         {
+            // specify a regular expression to match the lines
+            // see https://docs.microsoft.com/en-us/dotnet/standard/base-types/regular-expressions
             var rgx = new Regex("([0-9]+),\"([^\"]+)\"");
             var matches = rgx.Matches(line);
             if (matches.Count > 0)

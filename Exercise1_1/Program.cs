@@ -13,6 +13,10 @@ namespace Exercise1_1
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("**************************************");
+            Console.WriteLine("Solution to C# crash course exercise 1");
+            Console.WriteLine("**************************************");
+
             var lines = File.ReadAllLines(@"C:\Users\bulskov\Downloads\c# crash course exercises data.csv");
             var maxLen = 0;
             var longstTitle = "";
@@ -27,10 +31,11 @@ namespace Exercise1_1
                 }
             }
 
-            Console.WriteLine($"Longst Title ({maxLen}): {longstTitle}");
+            Console.WriteLine($"a) The longst title ({maxLen}):\n{longstTitle}\n");
 
             var wordList = new List<LineWords>();
 
+            Console.WriteLine("b) Id and number of words:");
             foreach (var line in lines)
             {
                 // split the line into an array with ["id", "title"] 
@@ -57,7 +62,7 @@ namespace Exercise1_1
                     writer.WriteLine($"{element.Id},\"{word}\"");
                 }
             }
-
+            Console.WriteLine($"c) Words written to file words.csv");
         }
     }
 }
